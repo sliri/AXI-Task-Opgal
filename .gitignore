@@ -1,0 +1,6 @@
+
+*.xpr
+
+FIFO_AXI/FIFO_AXI.hw/
+
+FIFO_AXI/FIFO_AXI.cache/
