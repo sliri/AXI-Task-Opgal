@@ -21,7 +21,6 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use work.consts_pack.all;
 
 
 -- Uncomment the following library declaration if using
@@ -34,11 +33,10 @@ use work.consts_pack.all;
 --use UNISIM.VComponents.all;
 
 
-package types_pack is
-    type axi_handshake_fsm_st_type is (st_fifo_empty,st_fifo_fetch,st_valid_not_ready,st_valid_ready);
-    subtype fetch_cntr_type is INTEGER range 0 to C_MAX_FETCH_CNTR;    
-end package types_pack;
+package consts_pack is
+    constant C_MAX_FETCH_CNTR :integer:= 4;
+end package consts_pack;
 
-package body types_pack is 
+package body consts_pack is 
 
-end types_pack; 
+end consts_pack; 

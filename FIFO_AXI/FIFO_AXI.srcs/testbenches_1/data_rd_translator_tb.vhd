@@ -84,8 +84,7 @@ architecture data_rd_translator_tb_arch of data_rd_translator_tb is
             --Read data channel
             RVALID          : out STD_LOGIC;   --Read valid. This signal indicates that the channel is signaling the required read data
             RREADY          : in STD_LOGIC;    --Read ready. This signal indicates that the master can accept the read data and response
-            RDATA           : out STD_LOGIC_VECTOR ( 31 downto 0 ));  --Read data.
-            --RRESP           : out STD_LOGIC_VECTOR ( 1 downto 0 ));  --Read response. This signal indicates the status of the read transfer.
+            RDATA           : out STD_LOGIC_VECTOR ( 31 downto 0 ));  --Read data.            
     end component data_rd_translator;
 
 begin
@@ -148,22 +147,28 @@ begin
     fifo_empty_process :process   
     begin
         fifo_empty_sig <= '0';
-        wait for 1 us;
+        wait for 0.1 us;
         fifo_empty_sig <= '1';
         wait for 1 us;
         fifo_empty_sig <= '0';
-        wait;       
+        wait for 1.5 us;
+        fifo_empty_sig <= '1';
+        wait for 1 us;
+        fifo_empty_sig <= '0';
+        wait;
     end process fifo_empty_process;
 
 
     rready_sig_process :process   
     begin
         rready_sig <= '0';
-        wait for 2 us;
+        wait for 0.5 us;
         rready_sig <= '1';
         wait for 1 us;
         rready_sig <= '0';
-        wait;       
+        wait for 2 us;
+        rready_sig <= '1';
+        wait;
     end process rready_sig_process;
 
 end data_rd_translator_tb_arch;

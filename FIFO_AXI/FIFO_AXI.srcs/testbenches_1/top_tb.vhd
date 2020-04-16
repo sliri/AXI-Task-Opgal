@@ -84,6 +84,22 @@ architecture top_tb_arch of top_tb is
         );
     end component top;
 
+    ----------------------------------------------------------------------------------------------------
+    ---Sginals Declerations
+    ----------------------------------------------------------------------------------------------------
+    signal resetn_sig           : STD_LOGIC;
+    signal reset_sig            : STD_LOGIC;
+    signal clk_sig              : STD_LOGIC;
+    signal aclk_sig             : STD_LOGIC;
+    signal aresetn_sig          : STD_LOGIC;
+    signal fifo_rd_en_sig       : STD_LOGIC; 
+    signal fifo_data_out_sig    : STD_LOGIC_VECTOR (31 downto 0); 
+    signal fifo_empty_sig       : STD_LOGIC; 
+    signal rvalid_sig           : STD_LOGIC;   
+    signal rready_sig           : STD_LOGIC;   
+    signal rdata_sig            : STD_LOGIC_VECTOR ( 31 downto 0 );  --Read data.
+   
+
 begin
 
 
