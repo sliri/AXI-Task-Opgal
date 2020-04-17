@@ -48,6 +48,7 @@ architecture global_signals_translator_arch of global_signals_translator is
     ---Sginals Declerations
     ------------------------------------------------------------------------------------------------------
     signal resetn_sig           : STD_LOGIC; 
+    signal resetn_ff_sig        : STD_LOGIC; 
       
 
     ------------------------------------------------------------------------------------------------------
@@ -80,9 +81,11 @@ begin
     reset_proc:process (ACLK,ARESETN)
     begin
         if (ARESETN = '0') then
-            resetn_sig <= '0'; 
+            resetn_sig    <= '0'; 
+            resetn_ff_sig <= '0';
         elsif rising_edge(ACLK) then
-            resetn_sig <= ARESETN;           
+            resetn_ff_sig <= ARESETN; 
+            resetn_sig    <= resetn_ff_sig;                    
         end if;  
     end process reset_proc;
 

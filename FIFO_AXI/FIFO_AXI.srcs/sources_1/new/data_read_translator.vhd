@@ -179,7 +179,7 @@ begin
                         fetch_cntr_rst_pulse <= '1';
                         -----OUTPUT-----------
                         FIFO_RD_EN          <= '1';            
-                        RVALID              <= '1';
+                        RVALID              <= '0';
                         RDATA               <= FIFO_DATA_OUT;
                     else
                         -----STATE-----------
@@ -188,7 +188,7 @@ begin
                         fetch_cntr_rst_pulse <= '0';
                         -----OUTPUT-----------
                         FIFO_RD_EN          <= '0';            
-                        RVALID              <= '1';
+                        RVALID              <= '0';
                         RDATA               <= FIFO_DATA_OUT;
                     end if;                  
             end case;           

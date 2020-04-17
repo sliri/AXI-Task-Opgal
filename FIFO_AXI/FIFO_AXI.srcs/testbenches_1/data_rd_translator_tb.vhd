@@ -46,10 +46,13 @@ architecture data_rd_translator_tb_arch of data_rd_translator_tb is
     signal aclk_sig             : STD_LOGIC;
     signal aresetn_sig          : STD_LOGIC;
     signal fifo_rd_en_sig       : STD_LOGIC; 
-    signal fifo_data_out_sig    : STD_LOGIC_VECTOR (31 downto 0); 
+    signal fifo_data_out_sig    : STD_LOGIC_VECTOR (31 downto 0);
+    signal fifo_data_out_f_sig  : STD_LOGIC_VECTOR (31 downto 0);  
     signal fifo_empty_sig       : STD_LOGIC; 
+    signal fifo_empty_f_sig     : STD_LOGIC;
     signal rvalid_sig           : STD_LOGIC;   
-    signal rready_sig           : STD_LOGIC;   
+    signal rready_sig           : STD_LOGIC;
+    signal rready_f_sig         : STD_LOGIC;   
     signal rdata_sig            : STD_LOGIC_VECTOR ( 31 downto 0 );  --Read data.
 
    
@@ -64,6 +67,30 @@ architecture data_rd_translator_tb_arch of data_rd_translator_tb is
                RESET        : out STD_LOGIC; -- Synchronus RESET (active high, '1'==> enters reset)
                RESETN       : out STD_LOGIC);-- Synchronus RESETN (active low, '0'==> enters reset)
     end component global_signals_translator;
+
+
+    component double_sampler is
+        Port (
+             --GLOBAL SIGNALS
+            ------------------
+            CLK      : in STD_LOGIC; --Master clock 
+            RESETN   : in STD_LOGIC; --Master reset, active low(reset when Low)
+    
+            --FIFO INTERFACE
+            ------------------       
+            FIFO_DATA_OUT     : in    STD_LOGIC_VECTOR (31 downto 0); 
+            FIFO_EMPTY        : in    STD_LOGIC; 
+            FIFO_DATA_OUT_F   : out   STD_LOGIC_VECTOR (31 downto 0); 
+            FIFO_EMPTY_F      : out   STD_LOGIC; 
+    
+            --AXI LITE INTERFACE
+            ------------------ 
+            --Read data channel        
+            RREADY          : in STD_LOGIC;   
+            RREADY_F        : out STD_LOGIC);               
+    end component double_sampler;
+
+
 
 
     component data_rd_translator is
@@ -98,16 +125,29 @@ begin
         CLK             =>  clk_sig,
         RESET           =>  reset_sig,
         RESETN          =>  resetn_sig);
+
+    double_sampler_inst: double_sampler port map(           
+        CLK                 =>  clk_sig,
+        RESETN              =>  resetn_sig,                    
+        FIFO_DATA_OUT       =>  fifo_data_out_sig,  
+        FIFO_EMPTY          =>  fifo_empty_sig,      
+        FIFO_DATA_OUT_F     =>  fifo_data_out_f_sig, 
+        FIFO_EMPTY_F        =>  fifo_empty_f_sig,    
+        RREADY              =>  rready_sig,       
+        RREADY_F            =>  rready_f_sig);                      
+        
     
     data_rd_translator_inst :data_rd_translator port map(
         CLK             => clk_sig,
         RESETN          => resetn_sig,
         FIFO_RD_EN      => fifo_rd_en_sig, 
-        FIFO_DATA_OUT   => fifo_data_out_sig,
-        FIFO_EMPTY      => fifo_empty_sig,
+        FIFO_DATA_OUT   => fifo_data_out_f_sig,
+        FIFO_EMPTY      => fifo_empty_f_sig,
         RVALID          => rvalid_sig,
-        RREADY          => rready_sig,   
+        RREADY          => rready_f_sig,   
         RDATA           => rdata_sig); 
+
+    
    
     ------------------------------------------------------------------------------------------------------
     ---Sequential statements---
