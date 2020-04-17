@@ -2,7 +2,7 @@
 This GitHub project includes the solution for the OPGAL AXI tranlator home task 
 
 ## Files and Directories ##
-1.AXI Docs- This dirctory with the AXI relevant documents form Xilinx and ARM.
+1.AXI Docs - This dirctory with the AXI relevant documents form Xilinx and ARM.
 
 2.FIFO_AXI/FIFO_AXI.srcs - this directory inclues the source files (*.vhd) of the implementation of the reading FSM.
 
